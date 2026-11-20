@@ -4,7 +4,7 @@
 [![rank](https://make.fun/badge/news-image-20261119/Ridlo12/news-image-20261119/rank.svg)](https://make.fun/bounty/news-image-20261119/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261119)
 [![reward](https://make.fun/badge/news-image-20261119/Ridlo12/news-image-20261119/reward.svg)](https://make.fun/bounty/news-image-20261119?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261119)
 
-A program that writes one image summing up the world's news of Thursday 19 November 2026: GTA VI launches worldwide, Trump, Xi and Putin are set for trilateral talks at the APEC summit in Shenzhen, the US and Iran strike each other again, Democrats nominate Hakeem Jeffries, NASA's Voyager 1 reaches one light-day from Earth, and the EU proposes a €45 billion loan for Ukraine.
+A program that writes one image summing up the world's news of Thursday 19 November 2026 — refreshed with the full day's six biggest stories: the first-ever Trump–Xi–Putin three-way summit in Shenzhen, the World Court ruling that Myanmar committed genocide against the Rohingya, Anthropic's record-setting IPO, GTA VI launching worldwide, the widening US–Iran war, and Democrats nominating Hakeem Jeffries for Speaker of the House.
 
 ## Run it
 
