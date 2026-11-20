@@ -1,48 +1,60 @@
-"""Entry point for the News Image 19 November 2026 entry.
+"""Entry point for the News Image 19 November 2026 make.fun entry.
 
-The artwork itself is the pre-rendered file ``entry.png`` that sits next to
-this script (a 1024x1024 newspaper-style infographic drawn with Pillow).
-This program does nothing creative at run time: it simply copies the bytes
-of ``entry.png`` into the output directory requested by make.fun, so every
-run produces exactly the same file.
+The artwork is a finished 1024x1024 newspaper-style infographic stored
+in ``entry.png`` next to this script. This program does not regenerate the
+image; it simply places an exact copy of it into the output directory so
+the evaluation harness can pick it up.
 
-The destination directory is taken from the ``MAKEFUN_OUTPUT_DIR``
-environment variable and falls back to ``/output`` when it is not set.
+The output directory comes from the ``MAKEFUN_OUTPUT_DIR`` environment
+variable and defaults to ``/output`` when the variable is not set. Every
+run writes the identical bytes, because the file is copied byte for byte.
 """
 
 import os
 import shutil
 import sys
-from pathlib import Path
+
+SOURCE_NAME = "entry.png"
+OUTPUT_NAME = "entry.png"
+DEFAULT_OUTPUT_DIR = "/output"
 
 
-def _source_path() -> Path:
-    """Return the path of the artwork bundled next to this script."""
-    return Path(__file__).resolve().parent / "entry.png"
+def resolve_paths():
+    """Return the (source, destination) paths for this run."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    source = os.path.join(here, SOURCE_NAME)
+    output_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", DEFAULT_OUTPUT_DIR)
+    destination = os.path.join(output_dir, OUTPUT_NAME)
+    return source, output_dir, destination
 
 
-def _output_dir() -> Path:
-    """Return the output directory from the environment, default /output."""
-    return Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
+def main():
+    source, output_dir, destination = resolve_paths()
 
-
-def main() -> int:
-    source = _source_path()
-    if not source.is_file():
-        print(f"error: entry.png not found next to this script ({source})", file=sys.stderr)
+    if not os.path.isfile(source):
+        print(
+            f"error: source image not found: {source} "
+            "(entry.png must sit next to main.py)",
+            file=sys.stderr,
+        )
         return 1
 
-    destination_dir = _output_dir()
-    destination_dir.mkdir(parents=True, exist_ok=True)
-
-    destination = destination_dir / "entry.png"
+    os.makedirs(output_dir, exist_ok=True)
     shutil.copyfile(source, destination)
-    if destination.stat().st_size != source.stat().st_size:
-        print("error: copied file size does not match entry.png", file=sys.stderr)
+
+    expected = os.path.getsize(source)
+    actual = os.path.getsize(destination)
+    if actual != expected:
+        print(
+            f"error: copied file size {actual} bytes does not match "
+            f"source size {expected} bytes",
+            file=sys.stderr,
+        )
         return 1
-    print(f"wrote {destination} ({destination.stat().st_size} bytes)")
+
+    print(f"wrote {destination} ({actual} bytes)")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    sys.exit(main())
